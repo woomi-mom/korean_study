@@ -1,6 +1,7 @@
 const SB='https://kkvrthngjbmkkwsqcmbx.supabase.co';
 const KEY='sb_publishable_oPqCSUdt9cCNQJYhbAyUzw__4LMAOAX';
 const TEACHER='w.mihyeon@gmail.com';
+const TEACHER_URL='https://korean-study-lc26.vercel.app/teacher.html';
 const client=window.supabase.createClient(SB,KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
 const loginPanel=document.getElementById('loginPanel');
 const dashboard=document.getElementById('dashboard');
@@ -11,14 +12,13 @@ const sessions=document.getElementById('sessions');
 
 googleLogin.addEventListener('click',async()=>{
   authMsg.textContent='';
-  const redirectTo=`${window.location.origin}/teacher.html`;
-  const {error}=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo}});
+  const {error}=await client.auth.signInWithOAuth({provider:'google',options:{redirectTo:TEACHER_URL}});
   if(error) authMsg.textContent=`Google 로그인 시작 오류: ${error.message}`;
 });
 
 signOut.addEventListener('click',async()=>{
   await client.auth.signOut();
-  location.replace('/teacher.html');
+  location.replace(TEACHER_URL);
 });
 
 async function boot(){
